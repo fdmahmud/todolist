@@ -40,7 +40,21 @@ class TodosController extends Controller
      */
     public function store(Request $request)
     {
-        return 'suvmitted';
+        //return 'suvmitted';
+        $this->validate($request, [
+          'text' => 'required'
+        ]);
+
+        // Create Todo
+        $todos = new Todolist;
+        $todos->text = $request->input('text');
+        $todos->body = $request->input('body');
+        $todos->due = $request->input('due');
+
+        $todos->save();
+
+        return redirect('/')->with('success', 'Todo Created');
+
     }
 
     /**
@@ -65,6 +79,9 @@ class TodosController extends Controller
     public function edit($id)
     {
         //
+        $todo = Todolist::find($id);
+        return view('todos.edit')->with('todo', $todo);
+
     }
 
     /**
