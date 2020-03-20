@@ -79,7 +79,7 @@ class TodosController extends Controller
     public function edit($id)
     {
         //
-        $todo = Todolist::find($id);
+        $todo = Todolist::find($id); 
         return view('todos.edit')->with('todo', $todo);
 
     }
@@ -93,7 +93,17 @@ class TodosController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        //return 'update';
+        $todos = Todolist::find($id);   // it finds with the in number
+        // $todos = new Todolist;
+        $todos->text = $request->input('text');
+        $todos->body = $request->input('body');
+        $todos->due = $request->input('due');
+
+        $todos->save();
+
+        return redirect('/')->with('success', 'Todo Updated');
+
     }
 
     /**
@@ -104,6 +114,12 @@ class TodosController extends Controller
      */
     public function destroy($id)
     {
-        //
+        //return 234;
+
+        $todo = Todolist::find($id);
+
+        $todo->delete();
+        return redirect('/')->with('success', 'Todo Delated');
+
     }
 }
